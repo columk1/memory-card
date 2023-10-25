@@ -18,6 +18,51 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.game {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+}
+
+.deck {
+  width: content;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(80px, 150px));
+  grid-template-rows: min-content;
+  grid-auto-rows: 0;
+  overflow-y: hidden;
+  gap: 1rem;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+}
+
+.level2 {
+  grid-auto-rows: min-content 1fr;
+}
+
+.btn {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.btn:hover {
+  border-color: #646cff;
+}
+.btn:focus,
+.btn:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -33,7 +78,7 @@
   }
 }
 
-.card {
+.startBtn {
   padding: 2em;
 }
 
