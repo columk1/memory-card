@@ -1,0 +1,16 @@
+dialog {
+  padding: 3rem 4rem;
+  border: none;
+  & h2 {
+    margin: 1rem;
+    font-size: 2rem;
+  }
+  & p {
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+  &::backdrop {
+    background-color: rgb(1, 1, 1, 0.1);
+    backdrop-filter: blur(1px);
+  }
+}
