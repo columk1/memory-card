@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import mainCard from './assets/card-10.png'
 import cards from './assets/data.js'
 import Modal from './components/Modal'
 import './App.css'
@@ -9,8 +7,8 @@ function Welcome({ startGame }) {
   return (
     <>
       <div>
-        <a href='https://vitejs.dev' target='_blank'>
-          <img src={mainCard} className='logo' alt='Vite logo' />
+        <a href='https://github.com/columk1/odin-memory-card' target='_blank'>
+          <img src={cards[10].url} className='logo' alt='Logo' />
         </a>
       </div>
       <h1>Memory Card</h1>
@@ -26,10 +24,6 @@ function Welcome({ startGame }) {
 }
 
 const CardFactory = (id, name, imgUrl, selected = false) => {
-  const getId = () => index
-  const getName = () => name
-  const getImgUrl = () => imgUrl
-
   function select() {
     this.selected = true
   }
@@ -59,10 +53,8 @@ function Game({ cards }) {
   const [isGameOver, setIsGameOver] = useState(false)
 
   const shuffleDeck = (deck) => {
-    console.log('shuffling')
     const random = deck.map(Math.random)
     const copy = [...deck].sort((a, b) => random[a.id] - random[b.id])
-    console.log(copy.slice(0, 4))
     if (allCardsSelected(copy.slice(0, 4))) {
       return shuffleDeck(copy)
     } else {
@@ -87,12 +79,10 @@ function Game({ cards }) {
 
   // Click handler for card selection
   const selectCard = (cardId) => {
-    console.log(deck)
     let updatedDeck = deck.map((card) => {
       card = JSON.parse(JSON.stringify(card))
       if (card.id === cardId) {
         if (card.selected) {
-          console.log('game over')
           setIsGameOver(true)
           return card
         } else {
@@ -105,7 +95,6 @@ function Game({ cards }) {
       }
     })
     if (allCardsSelected(updatedDeck)) {
-      console.log('All Cards Selected')
       nextLevel(updatedDeck)
     } else {
       shuffleDeck(updatedDeck)
@@ -122,8 +111,6 @@ function Game({ cards }) {
     setLevel(1)
     setScore(0)
     setIsGameOver(false)
-    console.log('game reset')
-    console.log(isGameOver)
   }
 
   return (
@@ -160,7 +147,7 @@ function Game({ cards }) {
       <Modal
         openModal={levelModalOpen}
         closeModal={() => setLevelModalOpen(false)}
-        buttonText='Continue'
+        buttonText={level === 1 ? 'Begin' : 'Continue'}
       >
         <h2>Level {level}</h2>
       </Modal>
