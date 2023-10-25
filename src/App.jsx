@@ -14,11 +14,11 @@ function Welcome({ startGame }) {
         </a>
       </div>
       <h1>Memory Card</h1>
+
       <div className='startBtn'>
         <button className='btn' onClick={startGame}>
           Start Game
         </button>
-        <p>Test your memory by only selecting cards that you haven't selected yet.</p>
       </div>
       <p className='read-the-docs'>A React project assignment from The Odin Project</p>
     </>
@@ -49,24 +49,47 @@ function Card({ id, imgUrl, onClick }) {
 
 function Game({ cards }) {
   const fullDeck = cards.map((card, index) => CardFactory(index, card.name, card.url))
-  const startingDeck = fullDeck.slice(0, fullDeck.length / 2)
+  const levelOneDeck = fullDeck.slice(0, fullDeck.length / 2)
+  const levelTwoDeck = fullDeck.slice(fullDeck.length / 2)
 
-  const [deck, setDeck] = useState(startingDeck)
+  const [deck, setDeck] = useState(levelOneDeck)
   const [level, setLevel] = useState(1)
+  const [levelModalOpen, setLevelModalOpen] = useState(false)
   const [score, setScore] = useState(0)
   const [isGameOver, setIsGameOver] = useState(false)
 
-  const shuffleDeck = () => {
+  const shuffleDeck = (deck) => {
+    console.log('shuffling')
     const random = deck.map(Math.random)
     const copy = [...deck].sort((a, b) => random[a.id] - random[b.id])
-    setDeck(copy)
+    console.log(copy.slice(0, 4))
+    if (allCardsSelected(copy.slice(0, 4))) {
+      return shuffleDeck(copy)
+    } else {
+      return setDeck(copy)
+    }
+    // return allCardsSelected(copy.slice(0, 4)) ? shuffleDeck(copy) : setDeck(copy)
   }
 
-  const isLevelComplete = () => deck.some((card) => !card.selected)
+  const allCardsSelected = (deck) => deck.every((card) => card.selected)
+
+  const nextLevel = (currentDeck) => {
+    if (level === 1) {
+      setLevel(2)
+      setLevelModalOpen(true)
+      shuffleDeck(currentDeck.concat(levelTwoDeck))
+      let deckContainer = document.querySelector('.deck')
+      deckContainer.classList.add('level-2')
+    } else {
+      setIsGameOver(true)
+    }
+  }
 
   // Click handler for card selection
   const selectCard = (cardId) => {
+    console.log(deck)
     let updatedDeck = deck.map((card) => {
+      card = JSON.parse(JSON.stringify(card))
       if (card.id === cardId) {
         if (card.selected) {
           console.log('game over')
@@ -81,7 +104,12 @@ function Game({ cards }) {
         return card
       }
     })
-    shuffleDeck(updatedDeck)
+    if (allCardsSelected(updatedDeck)) {
+      console.log('All Cards Selected')
+      nextLevel(updatedDeck)
+    } else {
+      shuffleDeck(updatedDeck)
+    }
   }
 
   const handleClick = (e) => {
@@ -90,7 +118,7 @@ function Game({ cards }) {
   }
 
   const resetGame = () => {
-    setDeck(startingDeck)
+    setDeck(levelOneDeck)
     setLevel(1)
     setScore(0)
     setIsGameOver(false)
@@ -107,16 +135,34 @@ function Game({ cards }) {
           ))}
         </div>
       </div>
+
       <div className='startBtn'>
-        <button className='btn' onClick={shuffleDeck}>
-          Start Game
-        </button>
-        <p>Score: {score}</p>
+        <div className='game-instructions'>
+          {level === 1 ? (
+            <>
+              <p className='read-the-docs'>
+                Test your memory by only selecting cards that you haven't been previously selected.
+              </p>
+              <p className='read-the-docs'>The game will end if you click the same image twice</p>
+            </>
+          ) : (
+            <p className='read-the-docs'>
+              Same again, but don't forget what you have already clicked
+            </p>
+          )}
+        </div>
+        <p className='score'>Score: {score}</p>
       </div>
-      <p className='read-the-docs'>A React project assignment from The Odin Project</p>
       <Modal openModal={isGameOver} closeModal={resetGame} buttonText='Play Again?'>
-        <h2>GAME OVER</h2>
+        <h2>{score !== 16 ? 'GAME OVER' : 'YOU WIN'}</h2>
         <p>Score: {score}</p>
+      </Modal>
+      <Modal
+        openModal={levelModalOpen}
+        closeModal={() => setLevelModalOpen(false)}
+        buttonText='Continue'
+      >
+        <h2>Level {level}</h2>
       </Modal>
     </>
   )

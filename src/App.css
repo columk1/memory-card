@@ -10,12 +10,13 @@
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
+  cursor: default;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+img:hover {
+  filter: drop-shadow(0 0 0.7em #646cff4d);
 }
 
 .game {
@@ -28,20 +29,25 @@
   width: content;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(4, minmax(80px, 150px));
+  grid-template-columns: repeat(4, minmax(80px, 160px));
   grid-template-rows: min-content;
   grid-auto-rows: 0;
   overflow-y: hidden;
-  gap: 1rem;
+  /* gap: 1rem; */
+}
+
+.card {
+  padding: 0.75rem;
 }
 
 .card img {
   width: 100%;
   height: 100%;
+  transition: filter 300ms;
 }
 
-.level2 {
-  grid-auto-rows: min-content 1fr;
+.level-2 {
+  grid-template-rows: min-content 1fr;
 }
 
 .btn {
@@ -84,4 +90,12 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.game-instructions {
+  margin-bottom: 1.5rem;
+}
+
+.score {
+  font-weight: bold;
 }
