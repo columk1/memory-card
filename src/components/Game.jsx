@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react'
+import '../styles/Game.css'
+import { useMemo, useState, useEffect } from 'react'
 import Card from './Card'
-import CardFactory from '../factories/CardFactory'
 import Hint from './Hint'
 import Modal from './Modal'
+
+const CardFactory = (id, name, imgUrl, selected = false) => {
+  return { id, name, imgUrl, selected }
+}
 
 const shuffleDeck = (deck) => {
   const random = deck.map(Math.random)
@@ -14,8 +18,11 @@ const shuffleDeck = (deck) => {
 const allCardsSelected = (deck) => deck.every((card) => card.selected)
 
 export default function Game({ cards }) {
-  //   localStorage.clear()
-  const fullDeck = cards.map((card, index) => CardFactory(index, card.name, card.url))
+  // localStorage.clear()
+  const fullDeck = useMemo(
+    () => cards.map((card, index) => CardFactory(index, card.name, card.url)),
+    [cards]
+  )
   const levelOneDeck = fullDeck.slice(0, fullDeck.length / 2)
   const levelTwoDeck = fullDeck.slice(fullDeck.length / 2)
 
