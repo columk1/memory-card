@@ -1,8 +1,25 @@
-# React + Vite
+# Memory Card
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+A javascript memory game built with React and Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Notes
+
+An Assignment from The Odin Project. Images by rawpixel.com on Freepik.
+
+#### Live Link: [Memory Card](https://columk-memory-card.netlify.app/)
+
+## Features
+
+- Two levels of difficulty
+- Score more points by playing faster (useEffect interval runs each time cards are randomized)
+- Highest score recorded in localStorage
+- Deck of cards is memoized to speed up renders
+
+## To Do
+
+- Accessibility
+- Subdivide Components
+- Loading spinner
+- Animation
