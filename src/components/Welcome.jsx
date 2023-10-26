@@ -5,7 +5,12 @@ export default function Welcome({ startGame }) {
   return (
     <>
       <div>
-        <a href='https://github.com/columk1/odin-memory-card' target='_blank'>
+        <a
+          href='https://github.com/columk1/odin-memory-card'
+          alt='Github link - Image by rawppixel.com on FreePik'
+          target='_blank'
+          rel='noreferrer'
+        >
           <img src={mainCard} className='logo' alt='Logo' />
         </a>
       </div>
