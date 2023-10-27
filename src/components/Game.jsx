@@ -1,5 +1,5 @@
 import '../styles/Game.css'
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useRef, useState, useEffect } from 'react'
 import Card from './Card'
 import Hint from './Hint'
 import Modal from './Modal'
@@ -34,13 +34,14 @@ export default function Game({ cards }) {
   const [isGameOver, setIsGameOver] = useState(false)
   const [hasWon, setHasWon] = useState(false)
 
-  let deckContainer = document.querySelector('.deck')
+  const deckRef = useRef(deck)
   let timeBonus = 5
 
   useEffect(() => {
-    setInterval(() => {
+    const bonusTimer = setInterval(() => {
       timeBonus--
     }, 200)
+    return () => clearInterval(bonusTimer)
   }, [deck])
 
   const nextLevel = (currentDeck) => {
@@ -48,7 +49,7 @@ export default function Game({ cards }) {
       setLevel(2)
       setLevelModalOpen(true)
       setDeck(shuffleDeck(currentDeck.concat(levelTwoDeck)))
-      deckContainer.classList.add('level-2')
+      deckRef.current.classList.add('level-2')
     } else {
       setHasWon(true)
       setIsGameOver(true)
@@ -85,7 +86,7 @@ export default function Game({ cards }) {
   }
 
   const resetGame = () => {
-    deckContainer.classList.remove('level-2')
+    deckRef.current.classList.remove('level-2')
     setLevel(1)
     setScore(0)
     setIsGameOver(false)
@@ -103,7 +104,7 @@ export default function Game({ cards }) {
   return (
     <>
       <div className='game'>
-        <div className='deck'>
+        <div className='deck' ref={deckRef}>
           {deck.map((card) => (
             <Card id={card.id} imgUrl={card.imgUrl} onClick={handleClick} key={card.id} />
           ))}
