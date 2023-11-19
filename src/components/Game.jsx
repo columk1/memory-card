@@ -37,6 +37,12 @@ export default function Game({ cards }) {
   const deckRef = useRef(deck)
   let timeBonus = 5
 
+  // TODO: Test both bonusTimer Interval methods for memory leaks
+
+  // const bonusTimer = setInterval(() => {
+  //   timeBonus--
+  // }, 200)
+
   useEffect(() => {
     const bonusTimer = setInterval(() => {
       timeBonus--
