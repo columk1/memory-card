@@ -9,6 +9,7 @@ const CardFactory = (id, name, imgUrl, selected = false) => {
 }
 
 const shuffleDeck = (deck) => {
+  // hello
   const random = deck.map(Math.random)
   const copy = [...deck].sort((a, b) => random[a.id] - random[b.id])
   // Recursive return statement to reshuffle when no unselected cards are visible
